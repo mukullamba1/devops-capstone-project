@@ -30,21 +30,26 @@ jobs:
           mkdir -p "$HOME/.kube"
           echo "$KUBE_CONFIG_B64" | base64 --decode > "$HOME/.kube/config"
           chmod 600 "$HOME/.kube/config"
-
-      - name: Set deployment image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          IMAGE_TAG: ${{ github.event.workflow_run.head_sha || github.sha }}
-        run: |
-          if [ -z "$DOCKERHUB_USERNAME" ]; then
-            echo "::error::Add DOCKERHUB_USERNAME in repository Actions secrets."
-            exit 1
-          fi
-          kubectl set image deployment/devops-capstone devops-capstone="$DOCKERHUB_USERNAME/devops-capstone-project:$IMAGE_TAG" --namespace default || true
+          kubectl get nodes
 
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f kubernetes/deployment.yaml
           kubectl apply -f kubernetes/service.yaml
+
+      - name: Deploy the image published by CI
+        if: github.event_name == 'workflow_run'
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          IMAGE_TAG: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [ -z "$DOCKERHUB_USERNAME" ]; then
+            echo "::error::Add DOCKERHUB_USERNAME in repository Actions secrets."
+            exit 1
+          fi
+          kubectl set image deployment/devops-capstone devops-capstone="$DOCKERHUB_USERNAME/devops-capstone-project:$IMAGE_TAG"
+
+      - name: Wait for rollout and verify
+        run: |
           kubectl rollout status deployment/devops-capstone --timeout=180s
           kubectl get pods,deploy,svc
