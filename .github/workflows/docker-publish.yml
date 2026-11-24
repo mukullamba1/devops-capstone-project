@@ -1,0 +1,44 @@
+
+name: Docker Hub Image Publishing
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-publish:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops-capstone-project:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops-capstone-project:${{ github.sha }}
+
+      - name: Deployment Summary
+        run: |
+          echo "Docker image successfully published!"
+          echo "Repository: devops-capstone-project"
+          echo "Tag: latest"
