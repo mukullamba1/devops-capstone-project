@@ -1,16 +1,30 @@
-
 ---
-- name: Deploy DevOps Capstone Application
+- name: Deploy DevOps Capstone application to Kubernetes
   hosts: localhost
   connection: local
   gather_facts: false
+  vars:
+    manifest_directory: "{{ playbook_dir }}/../kubernetes"
 
   tasks:
-    - name: Apply Kubernetes Deployment
-      command: kubectl apply -f "{{ playbook_dir }}/../kubernetes/deployment.yaml"
+    - name: Verify kubectl is installed
+      ansible.builtin.command: kubectl version --client
+      changed_when: false
 
-    - name: Apply Kubernetes Service
-      command: kubectl apply -f "{{ playbook_dir }}/../kubernetes/service.yaml"
+    - name: Verify cluster connectivity
+      ansible.builtin.command: kubectl get nodes
+      changed_when: false
 
-    - name: Verify Kubernetes Deployment
-      command: kubectl rollout status deployment/devops-capstone
+    - name: Apply application Deployment
+      ansible.builtin.command: kubectl apply -f {{ manifest_directory }}/deployment.yaml
+      register: deployment_apply
+      changed_when: "'configured' in deployment_apply.stdout or 'created' in deployment_apply.stdout"
+
+    - name: Apply application Service
+      ansible.builtin.command: kubectl apply -f {{ manifest_directory }}/service.yaml
+      register: service_apply
+      changed_when: "'configured' in service_apply.stdout or 'created' in service_apply.stdout"
+
+    - name: Wait for application rollout
+      ansible.builtin.command: kubectl rollout status deployment/devops-capstone --timeout=180s
+      changed_when: false
