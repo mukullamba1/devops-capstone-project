@@ -1,0 +1,52 @@
+
+name: DevOps Capstone CI-CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-scan:
+    name: Build, Test and Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build -t devops-capstone:latest .
+
+      - name: Run Application Container
+        run: |
+          docker run -d --name capstone-app -p 8080:80 devops-capstone:latest
+
+      - name: Test Application
+        run: |
+          curl --retry 10 --retry-connrefused --retry-delay 2 http://localhost:8080
+
+      - name: Container Logs
+        if: always()
+        run: docker logs capstone-app || true
+
+      - name: Stop Application Container
+        if: always()
+        run: docker rm -f capstone-app || true
+
+      - name: Trivy Security Scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: devops-capstone:latest
+          format: table
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
