@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Capstone Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: white;
+        }
+        header {
+            background: #172554;
+            padding: 25px;
+            text-align: center;
+        }
+        .container {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+        .status {
+            color: #4ade80;
+            font-weight: bold;
+        }
+        h2 { color: #60a5fa; }
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DevOps Automation Platform</h1>
+        <p>End-to-End CI/CD Deployment Dashboard</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Application</h2>
+            <p>DevOps Capstone Project</p>
+            <p class="status">Running</p>
+        </div>
+        <div class="card">
+            <h2>CI/CD Pipeline</h2>
+            <p>Automated Build and Deployment</p>
+            <p class="status">Ready</p>
+        </div>
+        <div class="card">
+            <h2>Containerization</h2>
+            <p>Docker Deployment</p>
+            <p class="status">Configured</p>
+        </div>
+        <div class="card">
+            <h2>Orchestration</h2>
+            <p>Kubernetes Platform</p>
+            <p class="status">Planned</p>
+        </div>
+        <div class="card">
+            <h2>Monitoring</h2>
+            <p>Prometheus and Grafana</p>
+            <p class="status">Planned</p>
+        </div>
+        <div class="card">
+            <h2>Security</h2>
+            <p>Trivy Security Scanner</p>
+            <p class="status">Planned</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>DevOps Capstone Project | Automated Software Delivery</p>
+    </footer>
+</body>
+</html>
