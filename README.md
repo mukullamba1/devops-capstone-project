@@ -233,6 +233,26 @@ Evidence includes:
 - Security scanning
 - Backup and recovery
 - Rolling update strategy
+- 
+---
+
+## 📚 Additional Project Documentation
+
+- [Complete Command Reference](COMMANDS.md)
+- [System Architecture](ARCHITECTURE.md)
+- [Troubleshooting Guide](TROUBLESHOOTING.md)
+- [Project Implementation Evidence](evidence/)
+
+## 📦 Container Image
+
+Docker Hub: [devops-capstone-project](https://hub.docker.com/r/mukullambacapstone/devops-capstone-project)
+
+## 📌 Project Status
+
+The project demonstrates CI/CD workflows, Docker image publishing, Kubernetes deployment, monitoring, logging inspection, backup and restore, self-healing and rolling updates.
+
+Infrastructure provisioning through Terraform/Ansible, centralized logging and automatic Kubernetes deployment from GitHub Actions are not currently implemented.
+
 
 ## 👨‍🎓 Capstone Project
 
