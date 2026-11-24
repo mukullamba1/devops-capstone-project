@@ -1,0 +1,22 @@
+
+---
+- name: Deploy DevOps Capstone Application
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Apply Kubernetes Deployment
+      command: kubectl apply -f kubernetes/deployment.yaml
+      args:
+        chdir: ..
+
+    - name: Apply Kubernetes Service
+      command: kubectl apply -f kubernetes/service.yaml
+      args:
+        chdir: ..
+
+    - name: Verify Kubernetes Deployment
+      command: kubectl rollout status deployment/devops-capstone
+      args:
+        chdir: ..
