@@ -1,260 +1,128 @@
-
 # 🚀 End-to-End DevOps Automation Platform
 
-A complete DevOps Capstone project demonstrating an automated software delivery workflow using GitHub Actions, Docker, Kubernetes, Prometheus and Grafana.
+A DevOps capstone demonstrating containerized application delivery, CI/CD, Kubernetes orchestration, security scanning, infrastructure automation and observability.
 
-## 👨‍💻 Project Overview
+## Student Details
+- **Name:** Mukul
+- **Roll Number:** 2301010167
+- **Subject:** DevOps
+- **Repository:** [devops-capstone-project](https://github.com/mukullamba1/devops-capstone-project)
 
-This project demonstrates how an application can be built, containerized, tested, scanned, deployed and monitored using modern DevOps tools.
-
-## 🏗️ Architecture
+## Architecture
 
 ```text
-Developer
-   |
-   v
-GitHub Repository
-   |
-   v
-GitHub Actions (CI/CD)
-   |
-   +----> Trivy Security Scan
-   |
-   v
-Docker Build & Push
-   |
-   v
-Docker Hub
-   |
-   v
-Kubernetes Deployment
-   |
-   v
-Kubernetes Service
-   |
-   v
-Application
-   |
-   v
-Prometheus + Grafana
+Developer -> GitHub -> GitHub Actions
+                         |
+              +----------+-----------+
+              |                      |
+          CI build/test          Docker build/push
+              |                      |
+          Trivy scan             Docker Hub
+                                     |
+                             Kubernetes Deployment
+                                     |
+                              Kubernetes Service
+                                     |
+                               Nginx Web App
+                                     |
+                         Prometheus + Grafana
+                         (Loki guide available)
 ```
 
-## 🛠️ Technologies Used
+## Technology Stack
 
 | Technology | Purpose |
 |---|---|
-| GitHub | Source Code Management |
-| GitHub Actions | CI/CD Automation |
-| Docker | Containerization |
-| Docker Hub | Container Image Registry |
-| Kubernetes | Container Orchestration |
-| Prometheus | Metrics Collection |
-| Grafana | Monitoring Dashboard |
-| Trivy | Container Security Scanning |
-| Nginx | Web Application Server |
+| GitHub / GitHub Actions | Source control and CI/CD |
+| Docker / Docker Hub | Container build and image registry |
+| Kubernetes | Application orchestration and self-healing |
+| Trivy | Container vulnerability scanning |
+| Terraform | Declarative Kubernetes resource provisioning |
+| Ansible | Repeatable Kubernetes deployment playbook |
+| Prometheus / Grafana | Metrics and dashboards |
+| Loki | Centralized logging implementation guide |
+| Nginx | Web server for the sample application |
 
-## 📁 Project Structure
+## Repository Layout
 
 ```text
-devops-capstone-project/
-│
-├── .github/
-│   └── workflows/
-│       ├── ci-cd.yml
-│       └── docker-publish.yml
-│
-├── kubernetes/
-│   ├── deployment.yaml
-│   └── service.yaml
-│
-├── evidence/
-│   └── Project Screenshots
-│
-├── index.html
-├── Dockerfile
-└── README.md
+.github/workflows/   CI, image publishing, Kubernetes deploy, Terraform validation
+kubernetes/          Kubernetes Deployment and Service manifests
+terraform/           Terraform Kubernetes provider configuration
+ansible/             Ansible deployment playbook
+docs/                Implementation status and centralized logging guide
+evidence/            Project screenshots captured during lab execution
+Dockerfile           Container build instructions
+index.html           Sample web application
+COMMANDS.md          Command reference
+ARCHITECTURE.md      Architecture and workflow notes
+TROUBLESHOOTING.md   Common operational issues
 ```
 
-## ⚙️ Project Setup
-
-### 1. Clone Repository
+## Quick Start: Docker
 
 ```bash
 git clone https://github.com/mukullamba1/devops-capstone-project.git
 cd devops-capstone-project
-```
-
-### 2. Build Docker Image
-
-```bash
 docker build -t devops-capstone-project .
+docker run --rm -p 8080:80 devops-capstone-project
 ```
 
-### 3. Run Docker Container
+Open `http://localhost:8080`.
 
-```bash
-docker run -d -p 8080:80 --name devops-app devops-capstone-project
-```
-
-Open in browser:
-
-```text
-http://localhost:8080
-```
-
-### 4. Deploy on Kubernetes
+## Kubernetes Deployment
 
 ```bash
 kubectl apply -f kubernetes/deployment.yaml
 kubectl apply -f kubernetes/service.yaml
-```
-
-### 5. Verify Deployment
-
-```bash
-kubectl get pods
-kubectl get deployments
-kubectl get services
-```
-
-### 6. Check Application Logs
-
-```bash
-kubectl logs deployment/devops-capstone --tail=30
-```
-
-### 7. Monitor Cluster Resources
-
-```bash
-kubectl top nodes
-kubectl top pods
-```
-
-## 🔄 CI/CD Pipeline
-
-The GitHub Actions workflows demonstrate:
-
-1. Source code checkout.
-2. CI/CD workflow execution.
-3. Docker image build and publishing.
-4. Trivy security scanning.
-
-Docker images are published to Docker Hub using GitHub repository secrets.
-
-## 📊 Monitoring
-
-Prometheus and Grafana were deployed using the Prometheus Community Helm chart.
-
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-
-helm repo update
-
-helm install prometheus prometheus-community/kube-prometheus-stack \
-  --namespace monitoring \
-  --create-namespace \
-  --set grafana.adminPassword=YOUR_GRAFANA_PASSWORD \
-  --set prometheus.prometheusSpec.retention=2d
-```
-
-## ♻️ Self-Healing Demonstration
-
-```bash
-kubectl delete pod POD_NAME
-kubectl get pods -w
-```
-
-Kubernetes automatically creates a replacement pod through the Deployment's ReplicaSet.
-
-## 💾 Backup and Restore
-
-Create backup:
-
-```bash
-mkdir -p ~/devops-backup
-
-kubectl get deployment devops-capstone -o yaml > ~/devops-backup/deployment-backup.yaml
-
-kubectl get service devops-capstone-service -o yaml > ~/devops-backup/service-backup.yaml
-```
-
-Restore:
-
-```bash
-kubectl apply -f ~/devops-backup/deployment-backup.yaml
-
-kubectl apply -f ~/devops-backup/service-backup.yaml
-
 kubectl rollout status deployment/devops-capstone
+kubectl get pods,deploy,svc
 ```
 
-## 🔁 Rolling Update
+The sample manifest uses two replicas, resource requests/limits and a NodePort service on port 30080.
 
+## CI/CD Workflows
+
+- **DevOps Capstone CI-CD:** builds the image, runs a container smoke test and performs a Trivy scan.
+- **Docker Hub Image Publishing:** builds and publishes `latest` and commit-SHA tags. Configure `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` in GitHub Actions secrets.
+- **Deploy to Kubernetes:** runs after a successful image-publishing workflow. Configure `KUBE_CONFIG_B64` with a base64-encoded kubeconfig for a reachable cluster and `DOCKERHUB_USERNAME`. Use a dedicated least-privilege service account.
+- **Terraform Validation:** checks formatting, initialization and configuration validity on Terraform changes.
+
+Never commit credentials, tokens or kubeconfig files.
+
+## Infrastructure Automation
+
+### Terraform
 ```bash
-kubectl set image deployment/devops-capstone devops-capstone=nginx:1.27
-
-kubectl rollout status deployment/devops-capstone
+cd terraform
+terraform init
+terraform fmt -check -recursive
+terraform validate
+terraform plan
+terraform apply
 ```
+Set `kubeconfig_path` and other inputs using a local `terraform.tfvars` file. The example file is `terraform/terraform.tfvars.example`. Terraform requires a reachable Kubernetes cluster for plan/apply.
 
-Check rollout:
-
+### Ansible
 ```bash
-kubectl rollout history deployment/devops-capstone
-kubectl get pods
+ansible-playbook ansible/deploy.yml
 ```
+Ansible requires Ansible, kubectl and a working Kubernetes context.
 
-## 🔐 Security
+## Monitoring and Recovery
 
-- Trivy security scanning in the CI/CD workflow.
-- Docker Hub authentication through GitHub Secrets.
-- No access tokens or passwords stored in source code.
+Prometheus and Grafana can be installed using the Helm commands in [COMMANDS.md](COMMANDS.md). Demonstrations include checking logs, pod self-healing, configuration backup/restore and rolling updates. See [ARCHITECTURE.md](ARCHITECTURE.md) and [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
-## 📸 Project Evidence
+Centralized logging setup instructions are in [docs/CENTRALIZED_LOGGING.md](docs/CENTRALIZED_LOGGING.md). Loki and a collector must be installed and verified before claiming centralized log aggregation is operational.
 
-Actual implementation screenshots are available in the [`evidence`](evidence/) folder.
+## Evidence
 
-Evidence includes:
+See [evidence/](evidence/) for screenshots captured during the lab. Screenshots should be genuine outputs from the actual tools and environment; documentation or workflow configuration alone is not proof of a successful live deployment.
 
-- GitHub Actions workflow
-- Docker image publishing
-- Kubernetes deployment
-- Prometheus and Grafana dashboards
-- Application logs
-- Kubernetes self-healing
-- Backup and restore
-- Rolling update
+## Implementation Status
 
-## 🎯 Learning Outcomes
+See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for the difference between repository configuration and live verification. Terraform, Ansible, Loki and automated cluster deployment are now represented by repository configurations/runbooks; they are **not claimed as live-tested** until their validation and deployment steps succeed in a real cluster.
 
-- CI/CD automation
-- Docker containerization
-- Kubernetes deployment and orchestration
-- Monitoring and observability
-- Security scanning
-- Backup and recovery
-- Rolling update strategy
-- 
----
-
-## 📚 Additional Project Documentation
-
-- [Complete Command Reference](COMMANDS.md)
-- [System Architecture](ARCHITECTURE.md)
-- [Troubleshooting Guide](TROUBLESHOOTING.md)
-- [Project Implementation Evidence](evidence/)
-
-## 📦 Container Image
-
-Docker Hub: [devops-capstone-project](https://hub.docker.com/r/mukullambacapstone/devops-capstone-project)
-
-## 📌 Project Status
-
-The project demonstrates CI/CD workflows, Docker image publishing, Kubernetes deployment, monitoring, logging inspection, backup and restore, self-healing and rolling updates.
-
-Infrastructure provisioning through Terraform/Ansible, centralized logging and automatic Kubernetes deployment from GitHub Actions are not currently implemented.
-
-
-## 👨‍🎓 Capstone Project
-
-**Project:** End-to-End DevOps Automation Platform  
-**Repository:** devops-capstone-project
+## References
+- [Docker Hub image](https://hub.docker.com/r/mukullambacapstone/devops-capstone-project)
+- [GitHub Actions](https://github.com/mukullamba1/devops-capstone-project/actions)
