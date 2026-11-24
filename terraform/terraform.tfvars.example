@@ -1,0 +1,4 @@
+# Copy to terraform.tfvars and update the path for your environment.
+kubeconfig_path = "~/.kube/config"
+namespace       = "devops-capstone"
+image           = "mukullambacapstone/devops-capstone-project:latest"
