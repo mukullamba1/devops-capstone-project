@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: devops-capstone
-          image: mukullamba1/devops-capstone-project:latest
+          image: mukullambacapstone/devops-capstone-project:latest
           ports:
             - containerPort: 80
           resources:
