@@ -12,24 +12,15 @@ permissions:
 jobs:
   deploy:
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
-      - name: Configure kubectl
-        env:
-          KUBE_CONFIG_B64: ${{ secrets.KUBE_CONFIG_B64 }}
+      - name: Verify Kubernetes access
         run: |
-          if [ -z "$KUBE_CONFIG_B64" ]; then
-            echo "::error::Add KUBE_CONFIG_B64 in repository Actions secrets before enabling deployment."
-            exit 1
-          fi
-          mkdir -p "$HOME/.kube"
-          echo "$KUBE_CONFIG_B64" | base64 --decode > "$HOME/.kube/config"
-          chmod 600 "$HOME/.kube/config"
           kubectl get nodes
 
       - name: Apply Kubernetes manifests
