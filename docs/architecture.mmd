@@ -1,0 +1,18 @@
+flowchart LR
+  DEV[Developer] --> GH[GitHub repository]
+  GH --> GA[GitHub Actions]
+  GA --> TEST[Build and smoke test]
+  GA --> TRIVY[Trivy scan]
+  TEST --> IMG[Docker image]
+  TRIVY --> IMG
+  IMG --> HUB[Docker Hub]
+  HUB --> K8S[Kubernetes Deployment]
+  K8S --> APP[Nginx app - 2 replicas]
+  APP --> SVC[NodePort Service :30080]
+  K8S --> PROM[Prometheus]
+  PROM --> GRAF[Grafana]
+  APP --> ALLOY[Grafana Alloy]
+  ALLOY --> LOKI[Loki]
+  LOKI --> GRAF
+  TF[Terraform] --> K8S
+  ANS[Ansible] --> K8S
