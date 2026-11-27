@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+<title id="title">DevOps Capstone Platform Architecture</title><desc id="desc">GitHub source and Actions build and scan a Docker image, publish it to Docker Hub, and deploy to Kubernetes. Prometheus and Grafana provide metrics. Alloy ships pod logs to Loki.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#172b42"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>
+ <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#059669"/><stop offset="1" stop-color="#047857"/></linearGradient>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".35"/></filter>
+ <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#93c5fd"/></marker>
+ <marker id="greenarrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#6ee7b7"/></marker>
+</defs>
+<rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+<text x="72" y="76" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">END-TO-END DEVOPS CAPSTONE</text>
+<text x="72" y="112" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="17">Source control • CI/CD • Containers • Kubernetes • Observability</text>
+<!-- CI row -->
+<g filter="url(#shadow)" font-family="Inter,Arial,sans-serif">
+ <rect x="72" y="170" width="220" height="112" rx="18" fill="#24292f" stroke="#64748b"/>
+ <text x="182" y="214" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">GitHub</text><text x="182" y="245" text-anchor="middle" fill="#cbd5e1" font-size="15">Source repository</text>
+ <rect x="380" y="170" width="240" height="112" rx="18" fill="url(#blue)"/>
+ <text x="500" y="214" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">GitHub Actions</text><text x="500" y="245" text-anchor="middle" fill="#dbeafe" font-size="15">Build • test • scan</text>
+ <rect x="710" y="170" width="220" height="112" rx="18" fill="#b45309"/>
+ <text x="820" y="214" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Trivy</text><text x="820" y="245" text-anchor="middle" fill="#ffedd5" font-size="15">Image vulnerability scan</text>
+ <rect x="1020" y="170" width="250" height="112" rx="18" fill="#0f766e"/>
+ <text x="1145" y="214" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Docker Hub</text><text x="1145" y="245" text-anchor="middle" fill="#ccfbf1" font-size="15">Image registry</text>
+</g>
+<g stroke="#93c5fd" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M292 226H370"/><path d="M620 226H700"/><path d="M930 226H1010"/></g>
+<!-- cluster -->
+<rect x="72" y="365" width="1296" height="440" rx="26" fill="#0b1424" stroke="#3b526d" stroke-width="2"/>
+<text x="110" y="410" fill="#e2e8f0" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700">KUBERNETES CLUSTER • KILLERCODA LAB</text>
+<g filter="url(#shadow)" font-family="Inter,Arial,sans-serif">
+ <rect x="120" y="475" width="280" height="130" rx="18" fill="url(#green)"/>
+ <text x="260" y="520" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Application</text><text x="260" y="551" text-anchor="middle" fill="#d1fae5" font-size="16">Nginx • 2 replicas</text><text x="260" y="577" text-anchor="middle" fill="#d1fae5" font-size="14">Service • NodePort 30080</text>
+ <rect x="500" y="475" width="250" height="130" rx="18" fill="#1e40af"/>
+ <text x="625" y="520" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Prometheus</text><text x="625" y="551" text-anchor="middle" fill="#dbeafe" font-size="16">Metrics collection</text><text x="625" y="577" text-anchor="middle" fill="#dbeafe" font-size="14">Kubernetes metrics</text>
+ <rect x="850" y="475" width="210" height="130" rx="18" fill="#c2410c"/>
+ <text x="955" y="520" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Grafana</text><text x="955" y="551" text-anchor="middle" fill="#ffedd5" font-size="16">Dashboards</text><text x="955" y="577" text-anchor="middle" fill="#ffedd5" font-size="14">Metrics + logs UI</text>
+ <rect x="1130" y="475" width="190" height="130" rx="18" fill="#7c3aed"/>
+ <text x="1225" y="520" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">Loki</text><text x="1225" y="551" text-anchor="middle" fill="#ede9fe" font-size="16">Log storage</text><text x="1225" y="577" text-anchor="middle" fill="#ede9fe" font-size="14">LogQL queries</text>
+ <rect x="430" y="675" width="270" height="82" rx="16" fill="#334155" stroke="#64748b"/>
+ <text x="565" y="710" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">Terraform + Ansible</text><text x="565" y="735" text-anchor="middle" fill="#cbd5e1" font-size="14">IaC + deployment automation</text>
+ <rect x="820" y="675" width="250" height="82" rx="16" fill="#334155" stroke="#64748b"/>
+ <text x="945" y="710" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">Grafana Alloy</text><text x="945" y="735" text-anchor="middle" fill="#cbd5e1" font-size="14">Kubernetes pod log collector</text>
+</g>
+<g stroke="#6ee7b7" stroke-width="3" fill="none" marker-end="url(#greenarrow)">
+ <path d="M1145 282V330H260V465"/>
+ <path d="M400 540H490"/>
+ <path d="M750 540H840"/>
+ <path d="M260 605V715H810"/>
+ <path d="M1070 716H1120V605"/>
+</g>
+<g fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="14">
+ <text x="112" y="852">Illustrative architecture: configured components are shown; live integrations must be validated in the target cluster.</text>
+ <text x="1120" y="852" text-anchor="end">Repository: mukullamba1/devops-capstone-project</text>
+</g>
+</svg>
