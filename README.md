@@ -29,6 +29,16 @@ Developer -> GitHub -> GitHub Actions
                          (Loki guide available)
 ```
 
+## Architecture Diagram
+
+![DevOps Capstone architecture](docs/architecture.svg)
+
+Editable diagram source: [Mermaid architecture](docs/architecture.mmd).
+
+## Monitoring Assets
+
+Version-controlled examples for Alloy, Loki datasource provisioning, and Prometheus alert rules are in [monitoring/](monitoring/). Follow [monitoring setup and validation](monitoring/README.md). These files are configuration examples; verify them in the live cluster before claiming end-to-end log ingestion or alerting is operational.
+
 ## Technology Stack
 
 | Technology | Purpose |
