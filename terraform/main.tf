@@ -8,10 +8,6 @@ terraform {
   }
 }
 
-provider "kubernetes" {
-  config_path = pathexpand(var.kubeconfig_path)
-}
-
 variable "kubeconfig_path" {
   description = "Path to a kubeconfig with permission to manage the application namespace."
   type        = string
@@ -21,13 +17,17 @@ variable "kubeconfig_path" {
 variable "namespace" {
   description = "Kubernetes namespace for the capstone application."
   type        = string
-  default     = "devops-capstone"
+  default     = "devops"
 }
 
 variable "image" {
   description = "Container image to deploy."
   type        = string
   default     = "mukullambacapstone/devops-capstone-project:latest"
+}
+
+provider "kubernetes" {
+  config_path = pathexpand(var.kubeconfig_path)
 }
 
 resource "kubernetes_namespace_v1" "app" {
@@ -46,7 +46,6 @@ resource "kubernetes_deployment_v1" "app" {
     namespace = kubernetes_namespace_v1.app.metadata[0].name
     labels    = { app = "devops-capstone" }
   }
-
   spec {
     replicas = 2
     selector {
